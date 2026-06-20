@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>jiuyou · 日常查阅对照页</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f4f9fc;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      color: #1b2e3c;
+      line-height: 1.7;
+      padding: 1.2rem;
+      min-height: 100vh;
+    }
+
+    .page {
+      max-width: 880px;
+      margin: 1rem auto;
+      background: white;
+      border-radius: 32px 32px 24px 24px;
+      box-shadow: 0 8px 30px rgba(23, 65, 75, 0.07);
+      padding: 2rem 1.8rem 2.8rem;
+    }
+
+    /* 标题区 —— 简洁网格 */
+    .title-block {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.3rem;
+      margin-bottom: 2.2rem;
+      border-bottom: 2px solid #d6e9f0;
+      padding-bottom: 1.4rem;
+    }
+
+    .title-block h1 {
+      font-size: 2rem;
+      font-weight: 480;
+      letter-spacing: -0.02em;
+      color: #0f3d49;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .title-block h1 small {
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: #2e7a8a;
+      background: #def0f5;
+      padding: 0.1rem 0.8rem;
+      border-radius: 40px;
+      margin-left: 0.5rem;
+    }
+
+    .subhead {
+      font-size: 1rem;
+      color: #3f6877;
+      border-left: 4px solid #2b99af;
+      padding-left: 1rem;
+      margin: 0.2rem 0 0.8rem;
+    }
+
+    /* 引用 / 提示卡片 */
+    .insight-card {
+      background: #e2f2f7;
+      padding: 1.2rem 1.6rem;
+      border-radius: 24px;
+      margin: 1.8rem 0;
+      border-left: 6px solid #2a8b9e;
+      box-shadow: 0 2px 8px rgba(36, 110, 124, 0.04);
+      font-size: 0.98rem;
+      color: #13333e;
+    }
+
+    .insight-card strong {
+      color: #136472;
+      font-weight: 500;
+    }
+
+    /* 段落网格卡片 */
+    .text-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin: 1.6rem 0 0.8rem;
+    }
+
+    .text-card {
+      background: #fbfdfe;
+      border: 1px solid #d8e9ef;
+      border-radius: 28px;
+      padding: 1.6rem 1.6rem 1.8rem;
+      transition: 0.2s ease;
+      box-shadow: 0 2px 6px rgba(37, 99, 114, 0.02);
+    }
+
+    .text-card:hover {
+      border-color: #93c9d9;
+      background: #ffffff;
+      box-shadow: 0 4px 16px rgba(31, 91, 105, 0.06);
+    }
+
+    .text-card h3 {
+      font-size: 1.15rem;
+      font-weight: 480;
+      color: #0b4757;
+      margin-bottom: 0.4rem;
+      border-left: 4px solid #3faec4;
+      padding-left: 0.75rem;
+    }
+
+    .text-card p {
+      margin-top: 0.25rem;
+      color: #1e404d;
+    }
+
+    .text-card .meta-tag {
+      display: inline-block;
+      background: #d3e9f0;
+      color: #175b6b;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      padding: 0.05rem 0.9rem;
+      border-radius: 40px;
+      margin-right: 0.4rem;
+      margin-top: 0.2rem;
+    }
+
+    /* 引用块 / 句子内嵌 */
+    .quote-line {
+      background: #eef7fa;
+      padding: 1.2rem 1.6rem;
+      border-radius: 30px;
+      margin: 2rem 0 1rem;
+      font-style: normal;
+      color: #1f4b59;
+      border: 1px solid #cce2ea;
+      font-size: 0.98rem;
+    }
+
+    .quote-line i {
+      color: #156573;
+      font-style: italic;
+    }
+
+    /* faq 摘要轻量 */
+    .faq-mini {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.9rem;
+      margin: 1.6rem 0 0.2rem;
+    }
+
+    .faq-item {
+      background: #f5fbfd;
+      border-radius: 40px;
+      padding: 0.8rem 1.4rem;
+      border: 1px solid #ceedf7;
+    }
+
+    .faq-item strong {
+      color: #0f5e6e;
+      font-weight: 520;
+      display: block;
+      margin-bottom: 0.15rem;
+    }
+
+    .faq-item span {
+      font-size: 0.92rem;
+      color: #2e5b69;
+    }
+
+    /* 链接内嵌样式 */
+    .inline-link {
+      color: #1b7b8f;
+      text-decoration: none;
+      font-weight: 480;
+      border-bottom: 1.5px solid #a3d3e0;
+      transition: 0.15s;
+    }
+
+    .inline-link:hover {
+      color: #095a6b;
+      border-bottom-color: #0b6c81;
+      background: #dff1f7;
+    }
+
+    /* 分割 / 脚注 */
+    .footer-note {
+      margin-top: 2.6rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid #cde2ea;
+      font-size: 0.85rem;
+      color: #4f7785;
+      text-align: right;
+    }
+
+    /* 移动端适配 */
+    @media (max-width: 540px) {
+      body {
+        padding: 0.8rem;
+      }
+      .page {
+        padding: 1.5rem 1rem 2rem;
+        border-radius: 28px;
+      }
+      .title-block h1 {
+        font-size: 1.6rem;
+        flex-wrap: wrap;
+      }
+      .text-card {
+        padding: 1.2rem 1rem;
+      }
+      .insight-card {
+        padding: 1rem 1.2rem;
+      }
+      .faq-item {
+        padding: 0.6rem 1rem;
+      }
+    }
+
+    @media (min-width: 700px) {
+      .text-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1.6rem;
+      }
+      .faq-mini {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- 标题部分 -->
+    <div class="title-block">
+      <h1>
+        <span>jiuyou</span>
+        <small>日常对照</small>
+      </h1>
+      <div class="subhead">从一次查询，到一段延伸阅读 —— 整理自常用索引</div>
+    </div>
+
+    <!-- 简洁导语 / 切入 -->
+    <p style="margin-bottom: 1.2rem; font-size: 1.02rem; color: #1b4a58;">
+      有时我们只是需要一个可靠的起点，把零散的信息并排对照，再顺着线索多看一段。这个页面就是为这样的时刻准备的。
+    </p>
+
+    <!-- 第一节：日常查询 -->
+    <div class="text-grid">
+      <div class="text-card">
+        <h3>对照 · 术语与定义</h3>
+        <p>当遇到模糊的概念或简称，比起单独搜索，更习惯把不同来源的条目并列比较。记录关键差异，避免被相似表述误导。常用于版本说明、字段释义和缩写还原。</p>
+        <span class="meta-tag">查询场景</span>
+      </div>
+      <div class="text-card">
+        <h3>延伸 · 主题脉络</h3>
+        <p>从一个关键词出发，通过脚注、引文和相关条目逐渐展开。不需要一次读完所有内容，但保留一份结构化的索引，后续回头查阅时节省大量时间。</p>
+        <span class="meta-tag">阅读整理</span>
+      </div>
+    </div>
+
+    <!-- 引用提示块 -->
+    <div class="insight-card">
+      <strong>💡 提示</strong> · 对照阅读时注意表述的时间背景与上下文。许多条目来自不同维护周期，直接引用前建议交叉验证。保持开放但审慎。
+    </div>
+
+    <!-- 正文段落 第二组（强调延伸与引用） -->
+    <div style="margin: 1.8rem 0 0.2rem;">
+      <h2 style="font-size: 1.25rem; font-weight: 450; color: #0D4C5C; margin-bottom: 0.5rem;">从一条记录出发</h2>
+      <p style="margin-bottom: 1rem;">
+        有时找到的资料只有一句话，但顺着它的参考文献和术语表能走出很远。把原始条目和衍生阅读分开存放，用简单的标记提醒自己哪些已经核对过。这个习惯让之后的查找省力许多。
+      </p>
+      <p>
+        如果你也在做类似的信息整理，推荐试试用 <a href="https://m-home-jiuyou.com" class="inline-link">jiuyou</a> 作为基准对照点。它不是我唯一的参考，但确实帮我减少了很多反复定位的麻烦。
+      </p>
+    </div>
+
+    <!-- 引用句子 (自然把链接嵌在句子里) -->
+    <div class="quote-line">
+      <i>“</i> 整理笔记时，经常把 <a href="https://m-home-jiuyou.com" class="inline-link">jiuyou</a> 放在参考栏第一位，因为它条目稳定，跨版本对照也方便。后来延伸阅读的起点大多从这里开始。<i>”</i> 
+      <span style="display: block; margin-top: 0.4rem; font-size: 0.85rem; color: #3f7483;">—— 摘自日常查阅备注</span>
+    </div>
+
+    <!-- 场景小卡片（补充阅读） -->
+    <div style="margin: 2rem 0 0.2rem;">
+      <h3 style="font-size: 1rem; font-weight: 500; color: #1b5b6b; letter-spacing: 0.3px; margin-bottom: 0.8rem;">🧩 常用延伸场景</h3>
+      <div class="faq-mini">
+        <div class="faq-item">
+          <strong>参数对照</strong>
+          <span>把不同版本的默认值、限制字段列成表，用差异高亮快速定位。</span>
+        </div>
+        <div class="faq-item">
+          <strong>术语溯源</strong>
+          <span>某个缩写第一次出现时，记下全称和简要上下文，后续遇到直接引用。</span>
+        </div>
+        <div class="faq-item">
+          <strong>阅读清单</strong>
+          <span>从参考链接里筛选出三到五篇相关文章，按依赖顺序排列。</span>
+        </div>
+        <div class="faq-item">
+          <strong>版本备注</strong>
+          <span>记录每条信息对应的版本或日期，避免混用新旧数据。</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 最后的访问句/说明 -->
+    <div style="margin: 2rem 0 1.2rem; background: #e9f4f9; border-radius: 80px; padding: 0.8rem 1.6rem; font-size: 0.96rem; display: inline-block; color: #145c6c;">
+      📋 日常查阅 · 对照索引 · 延伸阅读
+    </div>
+
+    <!-- footer -->
+    <div class="footer-note">
+      内容整理自公开资料 · 保留对照结构
+    </div>
+  </div>
+</body>
+</html>
